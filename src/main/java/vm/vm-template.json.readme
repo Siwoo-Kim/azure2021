@@ -1,0 +1,18 @@
+#https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/template-syntax
+
+ARM template (azure resource manager template)
+    what  - JSON file that defines resources. 
+    for  - template for automated deployment (templates are submitted to arg for provisioning)
+    how   - define ARM template and deploy from the Quickstart template library
+    
+    components
+        1. schema.
+        2. parameters   (배포시 사용할 인자)
+        3. variables    (재사용 변수)
+        4. resources    (배포할 리소스)
+        5. functions
+        
+        6. system functions - resourceId, concat ..
+        
+    # vm 을 portal 혹은 shell cli 로 생성한 후 arm template 을 export (Export template) 하여 재사.
+    # template 파일과 parameter 파일을 구분하여 템플릿을 재사용.

@@ -1,0 +1,78 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "virtualMachines_siwoo_vm1_name": {
+      "defaultValue": "siwoo-vm1",
+      "type": "String"
+    },
+    "disks_siwoo_vm1_OsDisk_1_923e8a0ae65a4e50a5aed1bd3baeadd6_externalid": {
+      "defaultValue": "/subscriptions/9ca56eca-d520-4671-86c0-09a6e2e9734a/resourceGroups/siwoo-rg1/providers/Microsoft.Compute/disks/siwoo-vm1_OsDisk_1_923e8a0ae65a4e50a5aed1bd3baeadd6",
+      "type": "String"
+    },
+    "networkInterfaces_siwoo_vm1VMNic_externalid": {
+      "defaultValue": "/subscriptions/9ca56eca-d520-4671-86c0-09a6e2e9734a/resourceGroups/siwoo-rg1/providers/Microsoft.Network/networkInterfaces/siwoo-vm1VMNic",
+      "type": "String"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2019-07-01",
+      "name": "[parameters('virtualMachines_siwoo_vm1_name')]",
+      "location": "canadacentral",
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "Standard_DS1_v2"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "Canonical",
+            "offer": "UbuntuServer",
+            "sku": "18.04-LTS",
+            "version": "latest"
+          },
+          "osDisk": {
+            "osType": "Linux",
+            "name": "[concat(parameters('virtualMachines_siwoo_vm1_name'), '_OsDisk_1_923e8a0ae65a4e50a5aed1bd3baeadd6')]",
+            "createOption": "FromImage",
+            "caching": "ReadWrite",
+            "managedDisk": {
+              "storageAccountType": "Premium_LRS",
+              "id": "[parameters('disks_siwoo_vm1_OsDisk_1_923e8a0ae65a4e50a5aed1bd3baeadd6_externalid')]"
+            },
+            "diskSizeGB": 30
+          },
+          "dataDisks": []
+        },
+        "osProfile": {
+          "computerName": "[parameters('virtualMachines_siwoo_vm1_name')]",
+          "adminUsername": "azureuser",
+          "linuxConfiguration": {
+            "disablePasswordAuthentication": true,
+            "ssh": {
+              "publicKeys": [
+                {
+                  "path": "/home/azureuser/.ssh/authorized_keys",
+                  "keyData": ""
+                }
+              ]
+            },
+            "provisionVMAgent": true
+          },
+          "secrets": [],
+          "allowExtensionOperations": true,
+          "requireGuestProvisionSignal": true
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[parameters('networkInterfaces_siwoo_vm1VMNic_externalid')]"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
